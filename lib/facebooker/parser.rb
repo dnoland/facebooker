@@ -60,7 +60,7 @@ module Facebooker
       response_element.children.reject{|c| c.kind_of? REXML::Text}.inject({}) do |hash, child|
         # If the node hasn't any child, and is not a list, we want empty strings, not empty hashes.
         hash[child.name] = if (child.children.size == 1 && child.children.first.kind_of?(REXML::Text)) || (child.children.size == 0 && child.attributes['list'] != 'true')
-          anonymous_field_from(child, hash) || child.text_value
+          child.attributes['xsi:nil'] == 'true' ? nil : anonymous_field_from(child, hash) || child.text_value
         else
           if child.attributes['list'] == 'true'
             child.children.reject{|c| c.kind_of? REXML::Text}.map do |subchild| 

@@ -74,7 +74,7 @@ module Facebooker
         define_method("#{symbol}=") do |list|
           instance_variable_set("@#{symbol}", list.map do |item|
             item.kind_of?(Hash) ? klass.from_hash(item) : item
-          end)
+          end) unless list.nil?
         end
       end      
     end
